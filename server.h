@@ -11,10 +11,12 @@ class HttpServer {
         int server_fd, new_socket, opt;
         sockaddr_in address;
         socklen_t addrlen;
-        char buffer[1024];
-
         void init_address();
         
         // Create the socket file descriptor listen for connections
         void init_socket();
+        // Read four bytes for the message length and cast to uint32_t
+        uint32_t read_msg_len();
+        // Read a message from client
+        std::string read_msg();
 };
