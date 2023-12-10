@@ -1,6 +1,6 @@
 #include<iostream>
-#include "server.h"
-#include "connection.h"
+#include "src/server.h"
+#include "src/connection.h"
 
 #define PORT 8080
 
