@@ -6,6 +6,12 @@
 
 #include "connection.h"
 
+ConnHandler::ConnHandler(){}
+
+ConnHandler::ConnHandler(RequestHandler request_handler) {
+    reqhandler = request_handler;
+}
+
 void ConnHandler::dispatch_handler_thread(int socket) {
     std::thread handler_thread (&ConnHandler::handle, this, socket);
     handler_thread.detach();
@@ -13,9 +19,8 @@ void ConnHandler::dispatch_handler_thread(int socket) {
 
 void ConnHandler::handle(int socket) {
     std::string recv_message = read_msg(socket);
-    printf("%s\n", recv_message.c_str());
-    char* hello = "Hello from server";
-    send(socket, hello, strlen(hello), 0);
+    std::string response = reqhandler.process(recv_message);
+    send(socket, response.c_str(), strlen(response.c_str()), 0);
     close(socket);
 }
 
