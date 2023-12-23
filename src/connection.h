@@ -12,5 +12,5 @@ class ConnHandler {
         std::string read_msg(int socket);
         void handle(int socket);
         // Process the request and return a response
-        std::string process_request(std::string request);
+        std::string process_request(std::string& request);
 };

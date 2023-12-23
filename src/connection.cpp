@@ -18,7 +18,7 @@ void ConnHandler::handle(int socket) {
     close(socket);
 }
 
-std::string ConnHandler::process_request(std::string request) {
+std::string ConnHandler::process_request(std::string& request) {
     printf("%s\n", request.c_str());
     return std::string("Hello from server");
 }
