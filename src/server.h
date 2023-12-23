@@ -5,7 +5,7 @@
 
 class HttpServer {
     public:
-        HttpServer(uint16_t port, ConnHandler connection_handler);
+        HttpServer(uint16_t port);
         uint16_t port;
         int run();
 

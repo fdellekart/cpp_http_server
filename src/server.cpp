@@ -12,9 +12,8 @@
 
 using namespace std;
 
-HttpServer::HttpServer(uint16_t server_port, ConnHandler connection_handler) {
+HttpServer::HttpServer(uint16_t server_port) {
     port = server_port;
-    conn_handler = connection_handler;
     opt = 1;
 }
 
