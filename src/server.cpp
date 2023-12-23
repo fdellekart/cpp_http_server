@@ -26,7 +26,8 @@ int HttpServer::run() {
             perror("accept failed");
             exit(EXIT_FAILURE);
         }
-        conn_handler.dispatch_handler_thread(new_socket);
+        ConnHandler* handler = new ConnHandler;
+        handler->dispatch_handler_thread(new_socket);
     }
 
     close(server_fd);
