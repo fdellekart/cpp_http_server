@@ -15,10 +15,10 @@ using namespace std;
 HttpServer::HttpServer(uint16_t server_port) {
     port = server_port;
     opt = 1;
+    init_address();
 }
 
 int HttpServer::run() {
-    init_address();
     init_socket();
     
     while (1) {
