@@ -6,6 +6,7 @@
 #include<bits/stdc++.h>
 
 #include "connection.h"
+#include "request.h"
 
 // Number of bytes read from socket per request
 #define MAX_REQUEST_SIZE 1024
@@ -23,23 +24,17 @@ void ConnHandler::handle(int socket) {
     close(socket);
 }
 
-std::string ConnHandler::process_request(std::string& request) {
-    std::stringstream ss(request);
-    std::string method;
-    std::string path;
-    std::string version;
-    
-    getline(ss, method, ' ');
-    getline(ss, path, ' ');
-    getline(ss, version, '\n');
+std::string ConnHandler::process_request(std::string& request_string) {
+    Request request;
+    request.parse_string(request_string);
 
     printf("Received Request\n");
     printf("--------------------------\n");
-    printf("Method: %s\n", method.c_str());
-    printf("Path: %s\n", path.c_str());
-    printf("Version: %s\n\n", version.c_str());
+    printf("Method: %i\n", request.method);
+    printf("Path: %s\n", request.path.c_str());
+    printf("Version: %i\n\n", request.version);
 
-    return request;
+    return request_string;
 }
 
 std::string ConnHandler::read_msg(int socket) {
