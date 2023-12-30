@@ -6,6 +6,10 @@
 
 #include "connection.h"
 
+// Number of bytes read from socket per request
+#define MAX_REQUEST_SIZE 1024
+
+
 void ConnHandler::dispatch_handler_thread(int socket) {
     std::thread handler_thread (&ConnHandler::handle, this, socket);
     handler_thread.detach();
@@ -30,8 +34,7 @@ uint32_t ConnHandler::read_msg_len(int socket) {
 }
 
 std::string ConnHandler::read_msg(int socket) {
-    uint32_t msg_len = read_msg_len(socket);
-    std::string recv_message(msg_len, 0);
-    read(socket, &recv_message[0], msg_len);
+    std::string recv_message(MAX_REQUEST_SIZE, 0);
+    read(socket, &recv_message[0], MAX_REQUEST_SIZE);
     return recv_message;
 }
