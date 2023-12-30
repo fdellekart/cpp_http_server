@@ -19,6 +19,7 @@ HttpServer::HttpServer(uint16_t server_port) {
 }
 
 int HttpServer::run() {
+    printf("Starting server. Listening on port %u.\n\n", port);
     init_socket();
     
     while (1) {

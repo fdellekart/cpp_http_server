@@ -3,6 +3,7 @@
 #include<unistd.h>
 #include<netinet/in.h>
 #include<string.h>
+#include<bits/stdc++.h>
 
 #include "connection.h"
 
@@ -23,14 +24,22 @@ void ConnHandler::handle(int socket) {
 }
 
 std::string ConnHandler::process_request(std::string& request) {
-    printf("%s\n", request.c_str());
-    return std::string("Hello from server");
-}
+    std::stringstream ss(request);
+    std::string method;
+    std::string path;
+    std::string version;
+    
+    getline(ss, method, ' ');
+    getline(ss, path, ' ');
+    getline(ss, version, '\n');
 
-uint32_t ConnHandler::read_msg_len(int socket) {
-    char msg_len_buffer[4];
-    read(socket, msg_len_buffer, 4);
-    return *(uint32_t *)msg_len_buffer;
+    printf("Received Request\n");
+    printf("--------------------------\n");
+    printf("Method: %s\n", method.c_str());
+    printf("Path: %s\n", path.c_str());
+    printf("Version: %s\n\n", version.c_str());
+
+    return request;
 }
 
 std::string ConnHandler::read_msg(int socket) {
