@@ -13,10 +13,20 @@ enum HTTP_METHOD {
     POST,
 };
 
-struct Request {
-    HTTP_VERSION version;
-    HTTP_METHOD method;
-    std::string path;
-    
-    void parse_string(std::string request);
+struct Request {    
+    public:
+        HTTP_VERSION version;
+        HTTP_METHOD method;
+        std::string path;
+        std::map<std::string, std::string> headers;
+
+        void parse_string(std::string& request);
+
+    private:
+        /*Parse http headers from existing request stream
+        
+        Assumes that first line of request was already read from 
+        stream and it can directly start reading the headers.
+        */
+        void parse_headers(std::stringstream& request_stream);
 };
