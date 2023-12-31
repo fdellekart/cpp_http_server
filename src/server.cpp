@@ -1,4 +1,5 @@
 #include<iostream>
+#include<string>
 #include<netinet/in.h>
 #include<sys/socket.h>
 #include<stdio.h>
@@ -6,15 +7,28 @@
 #include<stdlib.h>
 #include<unistd.h>
 #include<thread>
+#include<filesystem>
 
 #include "server.h"
 #include "connection.h"
 
 using namespace std;
+namespace fs = std::filesystem;
 
-HttpServer::HttpServer(uint16_t server_port) {
-    port = server_port;
+// Load all files located in the given directory
+std::vector<fs::path> load_dir_files (std::string target_dir) {
+    std::vector<fs::path> files;
+    for (const auto & entry : fs::directory_iterator(target_dir))
+        files.push_back(entry.path());
+    return files;
+}
+
+HttpServer::HttpServer(uint16_t port, std::string target_dir) {
     opt = 1;
+    this->port = port;
+    this->target_dir = target_dir;
+    files = load_dir_files(target_dir);
+
     init_address();
 }
 

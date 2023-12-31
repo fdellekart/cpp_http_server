@@ -7,7 +7,8 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
-    HttpServer server(PORT);
+    std::string target_dir = "./files/";
+    HttpServer server(PORT, target_dir);
     server.run();
     return 0;
 }
