@@ -1,57 +1,57 @@
-#include<iostream>
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
+#include <iostream>
 
 #include "request.h"
 
-void Request::parse_string(std::string& request) {
-    std::stringstream request_stream(request);
+void Request::parse_string(std::string &request) {
+  std::stringstream request_stream(request);
 
-    std::string method;
-    std::string path;
-    std::string version;
-    
-    getline(request_stream, method, ' ');
-    getline(request_stream, path, ' ');
-    getline(request_stream, version, '\n');
-    version.pop_back(); // Remove LF
+  std::string method;
+  std::string path;
+  std::string version;
 
-    this->path = path;
+  getline(request_stream, method, ' ');
+  getline(request_stream, path, ' ');
+  getline(request_stream, version, '\n');
+  version.pop_back(); // Remove LF
 
-    if (method == "GET") {
-        this->method = GET;
-    } else {
-        perror("Unsupported method");
-    }
+  this->path = path;
 
-    if (version == "HTTP/1.1") {
-        this->version = HTTP1_1;
-    } else {
-        printf("Unsupported version: '%s'\n", version.c_str());
-    }
+  if (method == "GET") {
+    this->method = GET;
+  } else {
+    perror("Unsupported method");
+  }
 
-    parse_headers(request_stream);
+  if (version == "HTTP/1.1") {
+    this->version = HTTP1_1;
+  } else {
+    printf("Unsupported version: '%s'\n", version.c_str());
+  }
+
+  parse_headers(request_stream);
 }
 
-void Request::parse_headers(std::stringstream& request_stream) {
-    std::string header;
-    while (1) {
-        getline(request_stream, header, '\n');
-        header.pop_back();
+void Request::parse_headers(std::stringstream &request_stream) {
+  std::string header;
+  while (1) {
+    getline(request_stream, header, '\n');
+    header.pop_back();
 
-        if (strlen(header.c_str()) == 0) {
-            // Empty line separating headers from body
-            break;
-        }
-
-        std::stringstream header_stream(header);
-        std::string key;
-        std::string value;
-
-        getline(header_stream, key, ' ');
-        getline(header_stream, value, '\n');
-
-        key.pop_back(); // Remove colon
-
-        headers[key] = value;
+    if (strlen(header.c_str()) == 0) {
+      // Empty line separating headers from body
+      break;
     }
+
+    std::stringstream header_stream(header);
+    std::string key;
+    std::string value;
+
+    getline(header_stream, key, ' ');
+    getline(header_stream, value, '\n');
+
+    key.pop_back(); // Remove colon
+
+    headers[key] = value;
+  }
 }
