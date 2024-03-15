@@ -23,10 +23,8 @@ std::vector<fs::path> load_dir_files (std::string target_dir) {
     return files;
 }
 
-HttpServer::HttpServer(uint16_t port, std::string target_dir) {
+HttpServer::HttpServer(uint16_t port, std::string target_dir) : port(port), target_dir(target_dir) {
     opt = 1;
-    this->port = port;
-    this->target_dir = target_dir;
     files = load_dir_files(target_dir);
 
     init_address();
