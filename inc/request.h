@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 enum HTTP_VERSION { VERSION_UNDEFINED, HTTP1_1, HTTP2 };
 
@@ -7,6 +8,9 @@ enum HTTP_METHOD {
   GET,
   POST,
 };
+
+// Get a string representing the method name
+std::string string_from_method(HTTP_METHOD method);
 
 struct Request {
 public:

@@ -55,3 +55,17 @@ void Request::parse_headers(std::stringstream &request_stream) {
     headers[key] = value;
   }
 }
+
+std::string string_from_method(HTTP_METHOD method) {
+  switch (method) {
+  case HTTP_METHOD::GET:
+    return "GET";
+  case HTTP_METHOD::POST:
+    return "POST";
+  case HTTP_METHOD::METHOD_UNDEFINED:
+    return "UNDEFINED";
+  default:
+    perror("Unknown HTTP method encountered");
+    exit(EXIT_FAILURE);
+  }
+}
