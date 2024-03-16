@@ -1,11 +1,10 @@
 #include <iostream>
 #include <string>
 
-enum HTTP_VERSION { VERSION_UNDEFINED, HTTP1_1, HTTP2 };
+enum HTTP_VERSION {HTTP1_1=0, HTTP2 };
 
 enum HTTP_METHOD {
-  METHOD_UNDEFINED,
-  GET,
+  GET=0,
   POST,
 };
 

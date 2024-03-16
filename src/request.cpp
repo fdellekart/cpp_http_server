@@ -62,8 +62,6 @@ std::string string_from_method(HTTP_METHOD method) {
     return "GET";
   case HTTP_METHOD::POST:
     return "POST";
-  case HTTP_METHOD::METHOD_UNDEFINED:
-    return "UNDEFINED";
   default:
     perror("Unknown HTTP method encountered");
     exit(EXIT_FAILURE);
