@@ -20,6 +20,9 @@ public:
 
   void parse_string(std::string &request);
   std::string abs_filepath();
+  
+  // Print information about the request to stdout
+  void print();
 
 private:
   /*Parse http headers from existing request stream

@@ -40,10 +40,7 @@ std::string ConnHandler::process_request(std::string &request_string) {
 
   printf("Received Request\n");
   printf("--------------------------\n");
-  printf("Method: %s\n", string_from_method(request.method).c_str());
-  printf("Path: %s\n", request.path.c_str());
-  printf("Version: %i\n", request.version);
-  printf("Cookies: %s\n\n", request.headers[std::string("Cookie")].c_str());
+  request.print();
 
   return file_buffer.str();
 }

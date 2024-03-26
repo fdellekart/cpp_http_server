@@ -56,6 +56,13 @@ void Request::parse_headers(std::stringstream &request_stream) {
   }
 }
 
+void Request::print() {
+  printf("Method: %s\n", string_from_method(method).c_str());
+  printf("Path: %s\n", path.c_str());
+  printf("Version: %i\n", version);
+  printf("Cookies: %s\n\n", headers[std::string("Cookie")].c_str());
+}
+
 std::string string_from_method(HTTP_METHOD method) {
   switch (method) {
   case HTTP_METHOD::GET:
