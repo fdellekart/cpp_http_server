@@ -1,8 +1,10 @@
-#include <bits/stdc++.h>
 #include <iostream>
+#include <fstream>
+#include <thread>
+
+#include <bits/stdc++.h>
 #include <netinet/in.h>
 #include <string.h>
-#include <thread>
 #include <unistd.h>
 
 #include "connection.h"
@@ -26,6 +28,15 @@ void ConnHandler::handle(int socket) {
 std::string ConnHandler::process_request(std::string &request_string) {
   Request request;
   request.parse_string(request_string);
+  
+  std::string filepath = "./files";
+  std::stringstream file_buffer;
+  for(int i=0; i<request.path.length(); i++) {
+    filepath.push_back(request.path.c_str()[i]);
+  }
+
+  std::ifstream input_file(filepath);
+  file_buffer << input_file.rdbuf();
 
   printf("Received Request\n");
   printf("--------------------------\n");
@@ -34,7 +45,7 @@ std::string ConnHandler::process_request(std::string &request_string) {
   printf("Version: %i\n", request.version);
   printf("Cookies: %s\n\n", request.headers[std::string("Cookie")].c_str());
 
-  return request_string;
+  return file_buffer.str();
 }
 
 std::string ConnHandler::read_msg(int socket) {

@@ -19,6 +19,7 @@ public:
   std::map<std::string, std::string> headers;
 
   void parse_string(std::string &request);
+  std::string abs_filepath();
 
 private:
   /*Parse http headers from existing request stream
