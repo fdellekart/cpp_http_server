@@ -1,10 +1,10 @@
 #include <iostream>
 #include <string>
 
-enum HTTP_VERSION {HTTP1_1=0, HTTP2 };
+enum HTTP_VERSION { HTTP1_1 = 0, HTTP2 };
 
 enum HTTP_METHOD {
-  GET=0,
+  GET = 0,
   POST,
 };
 
@@ -20,7 +20,7 @@ public:
 
   void parse_string(std::string &request);
   std::string abs_filepath();
-  
+
   // Print information about the request to stdout
   void print();
 
