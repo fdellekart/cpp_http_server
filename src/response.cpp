@@ -5,14 +5,22 @@
 
 #include "response.h"
 
-Response Response::from_file(std::string filepath, StatusCode code) {
-  std::stringstream file_buffer;
+Response Response::from_file(std::string filepath) {
+    Response response;
+  
   std::ifstream input_file(filepath);
-  file_buffer << input_file.rdbuf();
 
-  Response response;
-  response.code = code;
-  response.content = file_buffer.str();
+  if (!input_file.good()) {
+    response.code = StatusCode::NOT_FOUND;
+  } else {
+    std::stringstream file_buffer;
+    file_buffer << input_file.rdbuf();
+
+    response.code = StatusCode::OK;
+    response.content = file_buffer.str();
+  }
+
+  input_file.close();
 
   return response;
 };

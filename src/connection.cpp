@@ -37,7 +37,7 @@ std::string ConnHandler::process_request(std::string &request_string) {
   printf("--------------------------\n");
   request.print();
 
-  Response response = Response::from_file(filepath, StatusCode::OK);
+  Response response = Response::from_file(filepath);
   return response.str();
 }
 
