@@ -3,11 +3,12 @@
 #include <sstream>
 #include <string>
 
+#include "fmt/core.h"
 #include "response.h"
 
 Response Response::from_file(std::string filepath) {
-    Response response;
-  
+  Response response;
+
   std::ifstream input_file(filepath);
 
   if (!input_file.good()) {
@@ -26,10 +27,8 @@ Response Response::from_file(std::string filepath) {
 };
 
 std::string Response::str() {
-  std::string response_string("");
-  response_string += "HTTP/1.1";
-  response_string += " ";
-  response_string += code;
-  response_string += "\r\n";
-  return response_string;
+  std::string response_string = fmt::format("HTTP/1.1 {}\r\n", (int)code);
+  std::string content_type = fmt::format("Content-Type: text/html\r\n");
+  std::string formatted_content = fmt::format("{}\r\n", content);
+  return response_string + content_type + formatted_content;
 };
