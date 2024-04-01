@@ -23,12 +23,28 @@ Response Response::from_file(std::string filepath) {
 
   input_file.close();
 
+  (*response.headers)["Content-Type"] = "text/html";
+
   return response;
 };
 
 std::string Response::str() {
   std::string response_string = fmt::format("HTTP/1.1 {}\r\n", (int)code);
-  std::string content_type = fmt::format("Content-Type: text/html\r\n");
+  std::string headers_string = get_headers_string();
   std::string formatted_content = fmt::format("{}\r\n", content);
-  return response_string + content_type + formatted_content;
+  return response_string + headers_string + formatted_content;
+};
+
+std::string Response::get_headers_string() {
+  std::string result;
+  std::string header_line;
+
+  std::map<std::string, std::string>::iterator iter;
+  for (iter = (*headers).begin(); iter != (*headers).end(); ++iter) {
+    header_line = fmt::format("{}: {}\r\n", iter->first, iter->second);
+    result += header_line;
+    header_line.clear();
+  };
+
+  return result;
 };
