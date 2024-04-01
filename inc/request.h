@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 
+#include "headers.h"
+
 enum HTTP_VERSION { HTTP1_1 = 0, HTTP2 };
 
 enum HTTP_METHOD {
@@ -16,7 +18,7 @@ public:
   HTTP_VERSION version;
   HTTP_METHOD method;
   std::string path;
-  std::map<std::string, std::string> headers;
+  HeaderCollection *headers = new HeaderCollection;
 
   void parse_string(std::string &request);
   std::string abs_filepath();

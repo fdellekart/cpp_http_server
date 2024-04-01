@@ -34,6 +34,9 @@ void Request::parse_string(std::string &request) {
 
 void Request::parse_headers(std::stringstream &request_stream) {
   std::string header;
+  std::string key;
+  std::string value;
+
   while (1) {
     getline(request_stream, header, '\n');
     header.pop_back();
@@ -44,15 +47,16 @@ void Request::parse_headers(std::stringstream &request_stream) {
     }
 
     std::stringstream header_stream(header);
-    std::string key;
-    std::string value;
 
     getline(header_stream, key, ' ');
     getline(header_stream, value, '\n');
 
     key.pop_back(); // Remove colon
 
-    headers[key] = value;
+    headers->set(key, value);
+
+    key.clear();
+    value.clear();
   }
 }
 
@@ -60,7 +64,7 @@ void Request::print() {
   printf("Method: %s\n", string_from_method(method).c_str());
   printf("Path: %s\n", path.c_str());
   printf("Version: %i\n", version);
-  printf("Cookies: %s\n\n", headers[std::string("Cookie")].c_str());
+  printf("Cookies: %s\n\n", headers->get("Cookie").c_str());
 }
 
 std::string string_from_method(HTTP_METHOD method) {
