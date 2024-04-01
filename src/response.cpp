@@ -23,7 +23,7 @@ Response Response::from_file(std::string filepath) {
 
   input_file.close();
 
-  (*response.headers)["Content-Type"] = "text/html";
+  response.set_header("Content-Type", "text/html");
 
   return response;
 };
@@ -48,3 +48,11 @@ std::string Response::get_headers_string() {
 
   return result;
 };
+
+void Response::set_header(std::string key, std::string value) {
+  (*headers)[key] = value;
+};
+
+void Response::set_header(std::string key, std::size_t value) {
+  (*headers)[key] = fmt::format("{}", value);
+}

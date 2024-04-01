@@ -38,6 +38,9 @@ std::string ConnHandler::process_request(std::string &request_string) {
   request.print();
 
   Response response = Response::from_file(filepath);
+  // According to firefox this is not correct
+  // Browser due to some reason does not count the doctype line as part of the body
+  response.set_header("Content-Length", response.content.length());
   return response.str();
 }
 

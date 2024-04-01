@@ -9,6 +9,9 @@ public:
   StatusCode code;
   std::string content;
   std::string str();
+  void set_header(std::string key, std::string value);
+  void set_header(std::string key, std::size_t value);
+
   static Response from_file(std::string filepath);
 
 private:
