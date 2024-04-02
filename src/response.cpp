@@ -33,3 +33,7 @@ std::string Response::str() {
   std::string formatted_content = fmt::format("{}\r\n", content);
   return response_string + headers->str() + formatted_content;
 };
+
+void Response::set_default_headers() {
+  headers->set("Content-Length", content.length());
+};

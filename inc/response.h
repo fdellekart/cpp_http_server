@@ -14,4 +14,9 @@ public:
   std::string str();
 
   static Response from_file(std::string filepath);
+  /*
+  Fill the following headers with default values:
+    - Content-Length
+  */
+  void set_default_headers();
 };

@@ -38,8 +38,7 @@ std::string ConnHandler::process_request(std::string &request_string) {
   request.print();
 
   Response response = Response::from_file(filepath);
-
-  response.headers->set("Content-Length", response.content.length());
+  response.set_default_headers();
 
   return response.str();
 }
