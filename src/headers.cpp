@@ -24,5 +24,5 @@ std::string HeaderCollection::str() {
     header_line.clear();
   }
 
-  return result;
+  return result + "\r\n";
 }
