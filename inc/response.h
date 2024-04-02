@@ -3,6 +3,7 @@
 #include <string>
 
 #include "headers.h"
+#include "utils.h"
 
 enum StatusCode { OK = 200, NOT_FOUND = 404 };
 
