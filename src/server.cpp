@@ -41,8 +41,8 @@ int HttpServer::run() {
       perror("accept failed");
       exit(EXIT_FAILURE);
     }
-    ConnHandler *handler = new ConnHandler;
-    handler->dispatch_handler_thread(new_socket);
+    Connection connection(new_socket);
+    dispatch_handler_thread(connection);
   }
 
   close(server_fd);
@@ -80,3 +80,19 @@ void HttpServer::init_socket() {
     exit(EXIT_FAILURE);
   }
 }
+
+void HttpServer::register_route(Route route) {
+  (*routes).insert(std::make_pair(route.route, route));
+};
+
+void HttpServer::handle(Connection connection) {
+  auto request = connection.read_request();
+  auto route = routes->at(request.path);
+  auto response = route.request_handler(request);
+  connection.reply(response);
+};
+
+void HttpServer::dispatch_handler_thread(Connection &connection) {
+  std::thread handler_thread(&HttpServer::handle, this, connection);
+  handler_thread.detach();
+};
