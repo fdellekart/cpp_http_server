@@ -49,3 +49,11 @@ Response Response::not_found(std::string message) {
   response.set_default_headers();
   return response;
 };
+
+Response Response::not_allowed(std::string message) {
+  Response response;
+  response.code = StatusCode::NOT_ALLOWED;
+  response.content = message;
+  response.set_default_headers();
+  return response;
+};

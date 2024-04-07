@@ -97,13 +97,21 @@ void HttpServer::handle(Connection connection) {
   auto request = connection.read_request();
   auto value = routes->find(request.path);
   Response response;
+
+  // Route does not exist
   if (value == routes->end()) {
     response = Response::not_found(
         fmt::format("Route '{}' does not exist!", request.path));
+  // Route exists but method is not defined
+  } else if (value->second.find(request.method) == value->second.end()) {
+    response = Response::not_allowed(
+        fmt::format("Route '{}' does not support method '{}'", request.path,
+                    string_from_method(request.method)));
   } else {
     auto route = routes->at(request.path).at(request.method);
     response = route.request_handler(request);
   };
+
   connection.reply(response);
 };
 
