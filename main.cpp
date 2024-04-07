@@ -21,8 +21,7 @@ Response handle_hello_world_request(Request request) {
 };
 
 int main(int argc, char *argv[]) {
-  std::string target_dir = "./files/";
-  HttpServer server(PORT, target_dir);
+  HttpServer server(PORT);
 
   Route hello_route =
       Route(HTTP_METHOD::GET, "/hello_world.html", &handle_hello_world_request);

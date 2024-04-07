@@ -1,4 +1,3 @@
-#include <filesystem>
 #include <fmt/core.h>
 #include <iostream>
 #include <netinet/in.h>
@@ -13,22 +12,8 @@
 #include "connection.h"
 #include "server.h"
 
-using namespace std;
-namespace fs = std::filesystem;
-
-// Load all files located in the given directory
-std::vector<fs::path> load_dir_files(std::string target_dir) {
-  std::vector<fs::path> files;
-  for (const auto &entry : fs::directory_iterator(target_dir))
-    files.push_back(entry.path());
-  return files;
-}
-
-HttpServer::HttpServer(uint16_t port, std::string target_dir)
-    : port(port), target_dir(target_dir) {
+HttpServer::HttpServer(uint16_t port) : port(port) {
   opt = 1;
-  files = load_dir_files(target_dir);
-
   init_address();
 }
 
@@ -102,7 +87,7 @@ void HttpServer::handle(Connection connection) {
   if (value == routes->end()) {
     response = Response::not_found(
         fmt::format("Route '{}' does not exist!", request.path));
-  // Route exists but method is not defined
+    // Route exists but method is not defined
   } else if (value->second.find(request.method) == value->second.end()) {
     response = Response::not_allowed(
         fmt::format("Route '{}' does not support method '{}'", request.path,
