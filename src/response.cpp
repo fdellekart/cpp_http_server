@@ -41,3 +41,11 @@ std::string Response::str() {
 void Response::set_default_headers() {
   headers->set("Content-Length", content.length());
 };
+
+Response Response::not_found(std::string message) {
+  Response response;
+  response.code = StatusCode::NOT_FOUND;
+  response.content = message;
+  response.set_default_headers();
+  return response;
+};

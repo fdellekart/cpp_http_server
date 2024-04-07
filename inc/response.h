@@ -16,6 +16,8 @@ public:
   std::string content;
   std::string str();
 
+  static Response not_found(std::string mesage);
+
   static Response from_file(std::string filepath);
   /*
   Fill the following headers with default values:

@@ -1,4 +1,5 @@
 #include <filesystem>
+#include <fmt/core.h>
 #include <iostream>
 #include <netinet/in.h>
 #include <stdio.h>
@@ -87,8 +88,15 @@ void HttpServer::register_route(Route route) {
 
 void HttpServer::handle(Connection connection) {
   auto request = connection.read_request();
-  auto route = routes->at(request.path);
-  auto response = route.request_handler(request);
+  auto value = routes->find(request.path);
+  Response response;
+  if (value == routes->end()) {
+    response = Response::not_found(
+        fmt::format("Route '{}' does not exist!", request.path));
+  } else {
+    auto route = routes->at(request.path);
+    response = route.request_handler(request);
+  };
   connection.reply(response);
 };
 
