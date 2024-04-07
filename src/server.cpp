@@ -83,7 +83,14 @@ void HttpServer::init_socket() {
 }
 
 void HttpServer::register_route(Route route) {
-  (*routes).insert(std::make_pair(route.route, route));
+  auto existing_routes = routes->find(route.route);
+  if (existing_routes == routes->end()) {
+    auto new_routes = new std::map<HTTP_METHOD, Route>;
+    new_routes->insert(std::make_pair(route.method, route));
+    routes->insert(std::make_pair(route.route, *new_routes));
+  } else {
+    existing_routes->second.insert(std::make_pair(route.method, route));
+  };
 };
 
 void HttpServer::handle(Connection connection) {
@@ -94,7 +101,7 @@ void HttpServer::handle(Connection connection) {
     response = Response::not_found(
         fmt::format("Route '{}' does not exist!", request.path));
   } else {
-    auto route = routes->at(request.path);
+    auto route = routes->at(request.path).at(request.method);
     response = route.request_handler(request);
   };
   connection.reply(response);

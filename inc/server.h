@@ -8,7 +8,7 @@
 #include "request.h"
 #include "response.h"
 
-#define RoutesMapT std::map<std::string, Route>
+#define RoutesMapT std::map<std::string, std::map<HTTP_METHOD, Route>>
 
 namespace fs = std::filesystem;
 
