@@ -12,17 +12,6 @@
 
 namespace fs = std::filesystem;
 
-class Route {
-public:
-  Route(HTTP_METHOD method, std::string route,
-        Response (*request_handler)(Request))
-      : method(method), route(route), request_handler(request_handler){};
-
-  HTTP_METHOD method;
-  std::string route;
-  Response (*request_handler)(Request);
-};
-
 class HttpServer {
 public:
   HttpServer(uint16_t port);

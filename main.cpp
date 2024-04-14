@@ -1,4 +1,5 @@
 #include "connection.h"
+#include "routes.h"
 #include "server.h"
 #include <iostream>
 #include <string>
