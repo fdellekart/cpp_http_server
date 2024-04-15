@@ -94,7 +94,7 @@ void HttpServer::handle(Connection connection) {
                     string_from_method(request.method)));
   } else {
     auto route = routes->at(request.path).at(request.method);
-    response = route.request_handler(request);
+    response = route.request_handler(request, route);
   };
 
   connection.reply(response);

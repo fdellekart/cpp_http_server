@@ -7,6 +7,7 @@
 #include "connection.h"
 #include "request.h"
 #include "response.h"
+#include "routes.h"
 
 #define RoutesMapT std::map<std::string, std::map<HTTP_METHOD, Route>>
 

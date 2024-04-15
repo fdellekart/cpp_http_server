@@ -23,7 +23,6 @@ Response Response::from_file(std::string filepath) {
   }
 
   input_file.close();
-  std::string content_type;
 
   response.headers->set("Content-Type", ends_with(filepath, ".html")
                                             ? "text/html"
