@@ -9,12 +9,12 @@
 #include "response.h"
 #include "routes.h"
 
-#define RoutesMapT std::map<std::string, std::map<HTTP_METHOD, Route>>
-
 namespace fs = std::filesystem;
 
 class HttpServer {
 public:
+  typedef std::map<std::string, std::map<HTTP_METHOD, Route>> RoutesMap;
+
   HttpServer(uint16_t port);
 
   int run();
@@ -47,5 +47,5 @@ private:
   */
   void handle(Connection connection);
 
-  RoutesMapT *routes = new RoutesMapT;
+  RoutesMap *routes = new RoutesMap;
 };

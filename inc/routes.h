@@ -6,10 +6,10 @@
 #include "request.h"
 #include "response.h"
 
-#define ContextType std::unordered_map<std::string, std::string>
-
 class Route {
 public:
+  typedef std::unordered_map<std::string, std::string> ContextMap;
+
   Route(HTTP_METHOD method, std::string route,
         Response (*request_handler)(Request &, Route &))
       : method(method), route(route), request_handler(request_handler){};
@@ -23,7 +23,7 @@ public:
   std::string get_context(std::string key) { return context->at(key); };
 
 private:
-  ContextType *context = new ContextType;
+  ContextMap *context = new ContextMap;
 };
 
 class FileGetRoute : public Route {

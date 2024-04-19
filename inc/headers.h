@@ -3,10 +3,11 @@
 #include <map>
 #include <string>
 
-#define HeadersType std::map<std::string, std::string>
 
 class HeaderCollection {
 public:
+  typedef std::map<std::string, std::string> HeaderMap;
+
   // Combine all headers into a string with <key>:<value> pairs separated by
   // \r\n
   std::string str();
@@ -20,5 +21,5 @@ public:
   std::string get(std::string value);
 
 private:
-  HeadersType *headers = new HeadersType;
+  HeaderMap *headers = new HeaderMap;
 };
