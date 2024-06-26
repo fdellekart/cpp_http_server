@@ -11,9 +11,3 @@ public:
   void reply(Response &response);
   Request read_request();
 };
-
-/// @brief Check if the last four bytes read from request are two CRLF
-/// @param message pointer to the receiving message array
-/// @param buf_idx current number of bytes read
-/// @return boolean indicating if the request is finished
-bool terminate_read(char* message, int buff_idx);
