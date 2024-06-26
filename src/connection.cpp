@@ -26,9 +26,9 @@ Request Connection::read_request() {
   int buf_idx = 0;
 
   do {
-    read(socket, &recv_message[buf_idx], 1);
+    read(socket, recv_message + buf_idx, 1);
     buf_idx++;
-  } while (strcmp(&recv_message[buf_idx - 4], "\r\n\r\n") != 0 & buf_idx < MAX_REQUEST_SIZE);
+  } while (strcmp(recv_message + buf_idx - 4, "\r\n\r\n") != 0 & buf_idx < MAX_REQUEST_SIZE);
 
   std::string rcv_str = recv_message;
   Request request;
