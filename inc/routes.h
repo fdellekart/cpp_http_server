@@ -11,12 +11,12 @@ public:
   typedef std::unordered_map<std::string, std::string> ContextMap;
 
   Route(HTTP_METHOD method, std::string route,
-        Response (*request_handler)(Request &, Route &))
+        void (*request_handler)(Request &, Route &, Response &))
       : method(method), route(route), request_handler(request_handler){};
 
   HTTP_METHOD method;
   std::string route;
-  Response (*request_handler)(Request &, Route &);
+  void (*request_handler)(Request &, Route &, Response &);
   void set_context(std::string key, std::string value) {
     context->insert(std::make_pair(key, value));
   };

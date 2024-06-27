@@ -17,12 +17,12 @@ public:
   std::string str();
 
   // Response 404 not found if the route does not exist
-  static Response not_found(std::string mesage);
+  void not_found(std::string mesage);
 
   // Response 405 not allowed if route exists but method is unsupported
-  static Response not_allowed(std::string message);
+  void not_allowed(std::string message);
 
-  static Response from_file(std::string filepath);
+  void from_file(std::string filepath);
   /*
   Fill the following headers with default values:
     - Content-Length

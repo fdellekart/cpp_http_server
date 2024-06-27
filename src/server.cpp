@@ -80,26 +80,26 @@ void HttpServer::register_route(Route route) {
 
 void HttpServer::handle(Connection connection) {
   auto request = new Request;
-  Response response;
+  auto response = new Response;
   connection.read_request(*request);
   auto value = routes->find(request->path);
 
   // Route does not exist
   if (value == routes->end()) {
-    response = Response::not_found(
+    response->not_found(
         fmt::format("Route '{}' does not exist!", request->path));
     // Route exists but method is not defined
   } else if (value->second.find(request->method) == value->second.end()) {
-    response = Response::not_allowed(
-        fmt::format("Route '{}' does not support method '{}'", request->path,
-                    string_from_method(request->method)));
+    response->not_allowed(fmt::format("Route '{}' does not support method '{}'",
+                                      request->path,
+                                      string_from_method(request->method)));
   } else {
     auto route = routes->at(request->path).at(request->method);
-    response = route.request_handler(*request, route);
+    route.request_handler(*request, route, *response);
   };
 
-  connection.reply(response);
-  delete request;
+  connection.reply(*response);
+  delete request, response;
 };
 
 void HttpServer::dispatch_handler_thread(Connection &connection) {

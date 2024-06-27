@@ -7,28 +7,23 @@
 #include "response.h"
 #include "utils.h"
 
-Response Response::from_file(std::string filepath) {
-  Response response;
-
+void Response::from_file(std::string filepath) {
   std::ifstream input_file(filepath);
 
   if (!input_file.good()) {
-    response.code = StatusCode::NOT_FOUND;
+    code = StatusCode::NOT_FOUND;
   } else {
     std::stringstream file_buffer;
     file_buffer << input_file.rdbuf();
 
-    response.code = StatusCode::OK;
-    response.content = file_buffer.str();
+    code = StatusCode::OK;
+    content = file_buffer.str();
   }
 
   input_file.close();
 
-  response.headers->set("Content-Type", ends_with(filepath, ".html")
-                                            ? "text/html"
-                                            : "text/plain");
-
-  return response;
+  headers->set("Content-Type",
+               ends_with(filepath, ".html") ? "text/html" : "text/plain");
 };
 
 std::string Response::str() {
@@ -41,18 +36,14 @@ void Response::set_default_headers() {
   headers->set("Content-Length", content.length());
 };
 
-Response Response::not_found(std::string message) {
-  Response response;
-  response.code = StatusCode::NOT_FOUND;
-  response.content = message;
-  response.set_default_headers();
-  return response;
+void Response::not_found(std::string message) {
+  code = StatusCode::NOT_FOUND;
+  content = message;
+  set_default_headers();
 };
 
-Response Response::not_allowed(std::string message) {
-  Response response;
-  response.code = StatusCode::NOT_ALLOWED;
-  response.content = message;
-  response.set_default_headers();
-  return response;
+void Response::not_allowed(std::string message) {
+  code = StatusCode::NOT_ALLOWED;
+  content = message;
+  set_default_headers();
 };
