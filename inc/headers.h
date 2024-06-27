@@ -3,7 +3,6 @@
 #include <map>
 #include <string>
 
-
 class HeaderCollection {
 public:
   typedef std::map<std::string, std::string> HeaderMap;

@@ -14,24 +14,22 @@
 // Number of bytes read from socket per request
 #define MAX_REQUEST_SIZE 1024 * 100 // 100 kB
 
-
 void Connection::reply(Response &response) {
   std::string str_response = response.str();
   send(socket, str_response.c_str(), strlen(str_response.c_str()), 0);
   close(socket);
 }
 
-Request Connection::read_request() {
+void Connection::read_request(Request &request) {
   char recv_message[MAX_REQUEST_SIZE] = {0};
   int buf_idx = 0;
 
   do {
     read(socket, recv_message + buf_idx, 1);
     buf_idx++;
-  } while (strcmp(recv_message + buf_idx - 4, "\r\n\r\n") != 0 & buf_idx < MAX_REQUEST_SIZE);
+  } while (strcmp(recv_message + buf_idx - 4, "\r\n\r\n") != 0 &
+           buf_idx < MAX_REQUEST_SIZE);
 
   std::string rcv_str = recv_message;
-  Request request;
   request.parse_string(rcv_str);
-  return request;
 }

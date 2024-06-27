@@ -9,5 +9,5 @@ public:
   Connection(int socket) : socket(socket){};
   int socket;
   void reply(Response &response);
-  Request read_request();
+  void read_request(Request &request);
 };
