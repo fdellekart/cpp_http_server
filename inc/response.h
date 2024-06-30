@@ -7,7 +7,12 @@
 #include "headers.h"
 #include "utils.h"
 
-enum StatusCode { OK = 200, NOT_FOUND = 404, NOT_ALLOWED = 405 };
+enum StatusCode {
+  OK = 200,
+  NOT_FOUND = 404,
+  NOT_ALLOWED = 405,
+  PAYLOAD_TOO_LARGE = 413
+};
 
 class Response {
 public:
@@ -21,6 +26,9 @@ public:
 
   // Response 405 not allowed if route exists but method is unsupported
   void not_allowed(std::string message);
+
+  // Response 413 payload to large if client sent too much data
+  void payload_too_large(std::string message);
 
   void from_file(std::string filepath);
   /*

@@ -18,8 +18,7 @@ void file_request_handler(Request &request, FileGetRoute &route,
 
 FileGetRoute::FileGetRoute(std::string route, std::string filepath)
     : Route(HTTP_METHOD::GET, route,
-            (void(*)(Request &, Route &, Response &)) &
-                file_request_handler) {
+            (void (*)(Request &, Route &, Response &)) & file_request_handler) {
   std::ifstream file(filepath);
   if (!file.good()) {
     throw fmt::format("File '{}' does not exist. Cannot create route.",

@@ -9,6 +9,9 @@
 #include "response.h"
 #include "routes.h"
 
+// Number of bytes read from socket per request
+#define MAX_REQUEST_SIZE 1024 * 100 // 100 kB
+
 namespace fs = std::filesystem;
 
 class HttpServer {

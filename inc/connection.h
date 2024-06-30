@@ -9,5 +9,9 @@ public:
   Connection(int socket) : socket(socket){};
   int socket;
   void reply(Response &response);
-  void read_request(Request &request);
+
+  /// @brief Read from connection and parse data into Request
+  /// @param request request object reference to put data  in
+  /// @return nr of bytes read or -1 on if max length exceeded
+  int read_request(Request &request);
 };

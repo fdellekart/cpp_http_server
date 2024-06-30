@@ -47,3 +47,9 @@ void Response::not_allowed(std::string message) {
   content = message;
   set_default_headers();
 };
+
+void Response::payload_too_large(std::string message) {
+  code = StatusCode::PAYLOAD_TOO_LARGE;
+  content = message;
+  set_default_headers();
+};

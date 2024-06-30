@@ -81,15 +81,21 @@ void HttpServer::register_route(Route route) {
 void HttpServer::handle(Connection connection) {
   auto request = std::unique_ptr<Request>{new Request};
   auto response = std::unique_ptr<Response>{new Response};
-  connection.read_request(*request);
-  auto value = routes->find(request->path);
+  
+  if (connection.read_request(*request) < 0) {
+    response->payload_too_large(fmt::format(
+        "Request too long. Maximum size {} bytes.", MAX_REQUEST_SIZE));
+    connection.reply(*response);
+    return;
+  };
+  auto methods = routes->find(request->path);
 
   // Route does not exist
-  if (value == routes->end()) {
+  if (methods == routes->end()) {
     response->not_found(
         fmt::format("Route '{}' does not exist!", request->path));
     // Route exists but method is not defined
-  } else if (value->second.find(request->method) == value->second.end()) {
+  } else if (methods->second.find(request->method) == methods->second.end()) {
     response->not_allowed(fmt::format("Route '{}' does not support method '{}'",
                                       request->path,
                                       string_from_method(request->method)));

@@ -10,9 +10,7 @@
 #include "connection.h"
 #include "request.h"
 #include "response.h"
-
-// Number of bytes read from socket per request
-#define MAX_REQUEST_SIZE 1024 * 100 // 100 kB
+#include "server.h"
 
 void Connection::reply(Response &response) {
   std::string str_response = response.str();
@@ -20,7 +18,7 @@ void Connection::reply(Response &response) {
   close(socket);
 }
 
-void Connection::read_request(Request &request) {
+int Connection::read_request(Request &request) {
   char recv_message[MAX_REQUEST_SIZE] = {0};
   int buf_idx = 0;
 
@@ -30,6 +28,11 @@ void Connection::read_request(Request &request) {
   } while (strcmp(recv_message + buf_idx - 4, "\r\n\r\n") != 0 &
            buf_idx < MAX_REQUEST_SIZE);
 
-  std::string rcv_str = recv_message;
-  request.parse_string(rcv_str);
+  if (buf_idx == MAX_REQUEST_SIZE) {
+    return -1;
+  } else {
+    std::string rcv_str = recv_message;
+    request.parse_string(rcv_str);
+    return buf_idx;
+  }
 }
