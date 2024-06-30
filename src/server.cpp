@@ -79,8 +79,8 @@ void HttpServer::register_route(Route route) {
 };
 
 void HttpServer::handle(Connection connection) {
-  auto request = new Request;
-  auto response = new Response;
+  auto request = std::unique_ptr<Request>{new Request};
+  auto response = std::unique_ptr<Response>{new Response};
   connection.read_request(*request);
   auto value = routes->find(request->path);
 
@@ -99,7 +99,6 @@ void HttpServer::handle(Connection connection) {
   };
 
   connection.reply(*response);
-  delete request, response;
 };
 
 void HttpServer::dispatch_handler_thread(Connection &connection) {
